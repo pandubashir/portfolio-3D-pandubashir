@@ -4,16 +4,47 @@ import dynamic from "next/dynamic";
 import { useEffect, useRef } from "react";
 import TypedText from "./TypedText";
 
-const HeroScene = dynamic(() => import("./HeroScene"), { ssr: false });
+
+function MagneticBtn({ children, href, className, target, rel }) {
+  const ref = useRef(null);
+
+  function handleMouseMove(e) {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) * 0.28;
+    const dy = (e.clientY - cy) * 0.28;
+    el.style.transform = `translate(${dx}px, ${dy}px)`;
+  }
+
+  function handleMouseLeave() {
+    if (ref.current) ref.current.style.transform = "translate(0,0)";
+  }
+
+  return (
+    <a
+      ref={ref}
+      href={href}
+      target={target}
+      rel={rel}
+      className={className}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ transition: "transform 0.4s cubic-bezier(0.23,1,0.32,1), box-shadow 0.3s, background 0.3s" }}
+    >
+      {children}
+    </a>
+  );
+}
 
 export default function Hero() {
   const imgRef = useRef(null);
 
   useEffect(() => {
-    let targetX = 0,
-      targetY = 0,
-      currentX = 0,
-      currentY = 0;
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
     let rafId;
 
     function handleMouseMove(e) {
@@ -23,20 +54,37 @@ export default function Hero() {
       targetY = (e.clientY - cy) / cy;
     }
 
+    function handleTouchMove(e) {
+      const touch = e.touches[0];
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      targetX = (touch.clientX - cx) / cx;
+      targetY = (touch.clientY - cy) / cy;
+    }
+
+    function handleMouseLeave() {
+      targetX = 0;
+      targetY = 0;
+    }
+
     function animate() {
       currentX += (targetX - currentX) * 0.06;
       currentY += (targetY - currentY) * 0.06;
       if (imgRef.current) {
-        imgRef.current.style.transform = `scale(1.05) translate(${currentX * 12}px, ${currentY * 8}px)`;
+        imgRef.current.style.transform = `translate(${currentX * 10}px, ${currentY * 6}px) scale(1.02)`;
       }
       rafId = requestAnimationFrame(animate);
     }
 
     window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("mouseleave", handleMouseLeave);
     animate();
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("mouseleave", handleMouseLeave);
       cancelAnimationFrame(rafId);
     };
   }, []);
@@ -62,28 +110,27 @@ export default function Hero() {
           development, and digital forensics.
         </p>
         <div className="hero-btns">
-          <a
+          <MagneticBtn
             href="https://www.linkedin.com/in/pandu-bashir-alamin-a357a8331/"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-primary"
           >
             Get In Touch →
-          </a>
-          <a href="#projects" className="btn btn-ghost">
+          </MagneticBtn>
+          <MagneticBtn href="#projects" className="btn btn-ghost">
             Browse Projects
-          </a>
+          </MagneticBtn>
         </div>
       </div>
 
       <div className="hero-image-wrapper">
-        <HeroScene />
+        
         <div className="hero-image-glow" />
-        {/* Replace the src below with your actual photo, e.g. /poto-pandu.jpg in /public */}
         <img
           ref={imgRef}
           className="hero-profile-img"
-          src="/poto-pandu.jpg"
+          src="/poto-pandu.png"
           alt="Pandu Bashir Alamin"
         />
       </div>

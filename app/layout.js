@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
     <html lang="id">
       <head>
         <link
-          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap"
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Inter:wght@400;500;600;700;800;900&family=Fraunces:ital,wght@1,400;1,500&display=swap"
           rel="stylesheet"
         />
         <link
