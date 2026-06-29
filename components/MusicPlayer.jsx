@@ -8,14 +8,14 @@ const TRACKS = [
     sub: "Track 1",
     icon: "🌊",
     grad: "linear-gradient(135deg,#7c3aed,#3b82f6)",
-    ytId: "DXZPiatMqq8",
+    ytId: "agneRtEe-t8",
   },
   {
     name: "Bye Altare",
     sub: "Track 2",
     icon: "🌙",
     grad: "linear-gradient(135deg,#ec4899,#7c3aed)",
-    ytId: "agneRtEe-t8",
+    ytId: "DXZPiatMqq8",
   },
 ];
 
