@@ -4,14 +4,14 @@ import { useEffect, useRef, useState } from "react";
 
 const TRACKS = [
   {
-    name: "Lofi Chill Beats",
+    name: "Bye Altare",
     sub: "Track 1",
     icon: "🌊",
     grad: "linear-gradient(135deg,#7c3aed,#3b82f6)",
     ytId: "agneRtEe-t8",
   },
   {
-    name: "Bye Altare",
+    name: "Lofi Chill Beats",
     sub: "Track 2",
     icon: "🌙",
     grad: "linear-gradient(135deg,#ec4899,#7c3aed)",
